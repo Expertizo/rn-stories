@@ -1,5 +1,10 @@
 import { createDrawerNavigator } from "react-navigation";
-import { AboutStack, HomeStack, ContactStack } from "../screens/screensConfig";
+import {
+  AboutStack,
+  HomeStack,
+  ContactStack,
+  StoriesStack
+} from "../screens/screensConfig";
 
 /**
 |--------------------------------------------------
@@ -8,7 +13,8 @@ import { AboutStack, HomeStack, ContactStack } from "../screens/screensConfig";
 */
 
 export const AppDrawerNavigator = createDrawerNavigator({
-  Home: { screen: HomeStack },
-  About: { screen: AboutStack },
-  Contact: { screen: ContactStack }
+  Stories: { screen: StoriesStack }
+  // Home: { screen: HomeStack },
+  // About: { screen: AboutStack },
+  // Contact: { screen: ContactStack }
 });
