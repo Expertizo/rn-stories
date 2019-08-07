@@ -1,13 +1,16 @@
 import { StyleSheet, Dimensions } from "react-native";
-
-/**
-|--------------------------------------------------
-| One N Only CSS... oops, js style file 😃 Add your own desired styles
-|--------------------------------------------------
-*/
+const { width, height } = Dimensions.get("window");
 
 export default StyleSheet.create({
-  containerWithPadding: {
-    padding: 10
+  container: {
+    backgroundColor: "#000"
+  },
+  topContainer: {
+    height: height * 0.18
+  },
+  bottomContainer: {
+    width,
+    height: height * 0.92,
+    backgroundColor: "pink"
   }
 });

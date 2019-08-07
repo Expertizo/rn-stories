@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import {
   Dimensions,
   Text,
@@ -16,42 +16,62 @@ import { Ionicons } from "@expo/vector-icons";
 import AvatarWithStory from "../../../components/avatarWithStory";
 const { width, height } = Dimensions.get("window");
 
-export default class TopBar extends Component {
+export default class TopBar extends PureComponent {
   state = {
-    currentIndex: -1,
-    noOfStories: 10,
+    // currentIndex: 0,
+    // noOfStories: 0,
     noOfProgress: 0
   };
-  componentDidMount() {
-    const { duration } = this.props;
-    this.setState(pre => ({ ...pre, currentIndex: pre.currentIndex + 1 }));
-    if (this.interVal) clearInterval(this.interVal);
-    this.updateNoOfProgress();
-    const clearTimeOut = setInterval(() => {
-      const { currentIndex, noOfStories } = this.state;
-      console.log("firing");
-      if (Number(currentIndex) === Number(noOfStories)) {
-        console.log("clearing Timeout");
-        clearInterval(clearTimeOut);
-        clearInterval(this.interVal);
-      } else {
-        this.setState(pre => ({ ...pre, currentIndex: pre.currentIndex + 1 }));
-        if (this.interVal) clearInterval(this.interVal);
-        this.updateNoOfProgress();
-      }
-    }, 10000);
+  // componentDidMount() {
+  //   const { duration } = this.props;
+  //   this.setState(pre => ({ ...pre, currentIndex: pre.currentIndex + 1 }));
+  //   if (this.interVal) clearInterval(this.interVal);
+  //   this.updateNoOfProgress();
+  //   const clearTimeOut = setInterval(() => {
+  //     const { currentIndex, noOfStories } = this.state;
+  //     console.log("firing");
+  //     if (Number(currentIndex) === Number(noOfStories)) {
+  //       console.log("clearing Timeout");
+  //       clearInterval(clearTimeOut);
+  //       clearInterval(this.interVal);
+  //     } else {
+  //       this.setState(pre => ({ ...pre, currentIndex: pre.currentIndex + 1 }));
+  //       if (this.interVal) clearInterval(this.interVal);
+  //       this.updateNoOfProgress();
+  //     }
+  //   }, 10000);
+  // }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return {
+      currentIndex: nextProps.index,
+      noOfStories: nextProps.totalStories
+    };
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.index !== this.props.index) {
+      console.log("Rendering TOPBAR");
+      if (this.interVal) clearInterval(this.interVal);
+
+      this.updateNoOfProgress();
+    }
+  }
+
   updateNoOfProgress = () => {
     // const { duration } = this.props;
     const duration = 100;
     this.setState({ noOfProgress: 0 });
     this.interVal = setInterval(() => {
-      this.setState(pre => ({ ...pre, noOfProgress: pre.noOfProgress + 1 }));
+      const { noOfProgress } = this.state;
+      if (noOfProgress === 100) {
+        clearInterval(this.interVal);
+      } else {
+        this.setState(pre => ({ ...pre, noOfProgress: pre.noOfProgress + 1 }));
+      }
     }, duration);
   };
   render() {
     const { currentIndex, noOfStories, noOfProgress } = this.state;
-    console.log("TCL: TopBar -> render -> this.state", this.state);
     return (
       <View style={styles.container}>
         {[...Array(noOfStories)].map((story, index) => (
