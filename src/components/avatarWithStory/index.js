@@ -9,7 +9,9 @@ class AvatarWithStory extends Component {
     this.state = {};
   }
   render() {
-    const { avatar, name, time } = this.props.user;
+    const { user } = this.props;
+    const { avatar, name, time } = user;
+    const isHideBottom = this.props.isHideBottom || false;
     return (
       <View style={styles.container}>
         <View style={styles.imageContainer}>
@@ -17,16 +19,32 @@ class AvatarWithStory extends Component {
             source={{
               uri: avatar
             }}
-            style={styles.avatar}
+            style={[
+              styles.avatar,
+              this.props.ImageStyle && { ...this.props.ImageStyle }
+            ]}
           />
         </View>
         <View style={styles.titleContainer}>
-          <Text style={styles.title} numberOfLines={1}>
+          <Text
+            style={[
+              styles.title,
+              this.props.TitleStyle && { ...this.props.TitleStyle }
+            ]}
+            numberOfLines={1}
+          >
             {name}
           </Text>
-          <Text style={styles.time}>{time}</Text>
+          <Text
+            style={[
+              styles.time,
+              this.props.TimeStyle && { ...this.props.TimeStyle }
+            ]}
+          >
+            {time}
+          </Text>
         </View>
-        <View style={styles.bottomBorder} />
+        {!isHideBottom && <View style={styles.bottomBorder} />}
       </View>
     );
   }
