@@ -38,7 +38,7 @@ class Story extends Component {
     this.interval();
   }
 
-  interval = falg => {
+  interval = () => {
     if (this.clearTimeOut) clearTimeout(this.clearTimeOut);
     this.clearTimeOut = setTimeout(() => {
       const { currentIndex, noOfStories } = this.state;
