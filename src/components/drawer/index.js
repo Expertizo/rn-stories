@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { withNavigation } from "react-navigation";
 import { connect } from "react-redux";
+import { signoutAction } from "../../store/actions/auth.action";
 
 const Drawer = props => {
   return (
@@ -24,7 +25,13 @@ const Drawer = props => {
       >
         <Text style={styles.text}>Add Story</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.item} onPress={() => props.signout()}>
+      <TouchableOpacity
+        style={styles.item}
+        onPress={() => {
+          props.signout();
+          props.navigation.navigate("Auth");
+        }}
+      >
         <Text style={styles.text}>Logout</Text>
       </TouchableOpacity>
     </View>

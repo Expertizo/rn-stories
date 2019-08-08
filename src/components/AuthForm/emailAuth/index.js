@@ -40,7 +40,7 @@ export const EmailAuthWithNav = props => {
       .signInWithEmailAndPassword(email, password)
       .then(res => {
         res && props.login(res.user.uid);
-        return props.navigation.navigate("App")
+        return props.navigation.navigate("App");
       })
       .catch(error => {
         console.log(error);
@@ -58,7 +58,9 @@ export const EmailAuthWithNav = props => {
           .doc(res.user.uid)
           .set(
             {
-              name
+              name,
+              avatar:
+                "http://keenthemes.com/preview/metronic/theme/assets/pages/media/profile/people19.png"
             },
             { merge: true }
           );
@@ -128,7 +130,7 @@ export const EmailAuthWithNav = props => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    login: (uid) => dispatch(loginAction({ userStatus: true, uid })),
+    login: uid => dispatch(loginAction({ userStatus: true, uid })),
     signup: () => dispatch(signupAction({ userStatus: true }))
   };
 };
