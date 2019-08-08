@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import * as firebase from "firebase";
 import { loginAction, signupAction } from "../../../store/actions/auth.action";
 import "firebase/firestore";
+import { withNavigation } from "react-navigation";
 
 /**
 |--------------------------------------------------
@@ -38,7 +39,8 @@ export const EmailAuthWithNav = props => {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(res => {
-        return res && props.login();
+        res && props.login(res.user.uid);
+        return props.navigation.navigate("App")
       })
       .catch(error => {
         console.log(error);
@@ -126,7 +128,7 @@ export const EmailAuthWithNav = props => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    login: () => dispatch(loginAction({ userStatus: true })),
+    login: (uid) => dispatch(loginAction({ userStatus: true, uid })),
     signup: () => dispatch(signupAction({ userStatus: true }))
   };
 };
@@ -135,4 +137,4 @@ export const EmailAuth = connect(
   // mapStateToProps,
   null,
   mapDispatchToProps
-)(EmailAuthWithNav);
+)(withNavigation(EmailAuthWithNav));

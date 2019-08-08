@@ -51,7 +51,7 @@ const AppNavigatorContainer = createSwitchNavigator(
     AuthLoadingScreen
   },
   {
-    initialRouteName: "Auth"
+    initialRouteName: "App"
   }
 );
 
