@@ -3,6 +3,7 @@ import { createStackNavigator } from "react-navigation";
 import { Stories } from "../Stories";
 import { headerStyles } from "../../shared/headerStyles";
 import StoryScreen from "./StoryScreen";
+import AddStoryScreen from "./AddStoryScreen";
 
 class StoriesScreen extends React.Component {
   render() {
@@ -13,10 +14,11 @@ class StoriesScreen extends React.Component {
 export const StoriesStack = createStackNavigator(
   {
     StoriesScreen: { screen: StoriesScreen },
-    StoryScreen: { screen: StoryScreen }
+    StoryScreen: { screen: StoryScreen },
+    AddStoryScreen: { screen: AddStoryScreen }
   },
   {
-    initialRouteName: "StoryScreen",
+    initialRouteName: "AddStoryScreen",
     defaultNavigationOptions: ({ navigation }) => {
       return {
         headerTitle: "Whatsapp Stories",
