@@ -18,7 +18,7 @@ export const StoriesStack = createStackNavigator(
     AddStoryScreen: { screen: AddStoryScreen }
   },
   {
-    initialRouteName: "AddStoryScreen",
+    initialRouteName: "StoriesScreen",
     defaultNavigationOptions: ({ navigation }) => {
       return {
         headerTitle: "Whatsapp Stories",
