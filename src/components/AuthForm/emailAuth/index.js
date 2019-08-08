@@ -4,6 +4,7 @@ import { Formik, ErrorMessage } from "formik";
 import { connect } from "react-redux";
 import * as firebase from "firebase";
 import { loginAction, signupAction } from "../../../store/actions/auth.action";
+import "firebase/firestore";
 
 /**
 |--------------------------------------------------
@@ -44,11 +45,21 @@ export const EmailAuthWithNav = props => {
       });
   };
 
-  const signup = (email, password) => {
+  const signup = async (email, password, name) => {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(res => {
+      .then(async res => {
+        await firebase
+          .firestore()
+          .collection("users")
+          .doc(res.user.uid)
+          .set(
+            {
+              name
+            },
+            { merge: true }
+          );
         return res && props.signup();
       })
       .catch(error => {
@@ -61,12 +72,15 @@ export const EmailAuthWithNav = props => {
       initialValues={{ email: "", password: "" }}
       validate={hasValid}
       onSubmit={values => {
-        const { email, password } = values;
-        isSignup ? signup(email, password) : login(email, password);
+        const { email, password, name } = values;
+        isSignup ? signup(email, password, name) : login(email, password);
       }}
     >
       {({ values, handleChange, handleBlur, handleSubmit }) => (
         <View>
+          {isSignup && (
+            <TextInput placeholder="Name" onChangeText={handleChange("name")} />
+          )}
           <TextInput
             placeholder="Email"
             onChangeText={handleChange("email")}

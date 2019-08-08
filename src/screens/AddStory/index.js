@@ -11,6 +11,7 @@ import * as firebase from "firebase";
 import { withNavigation } from "react-navigation";
 import { TextInput } from "react-native-gesture-handler";
 import { ImagePicker } from "expo";
+import { connect } from "react-redux";
 const { width, height } = Dimensions.get("window");
 
 class AddStoriesForm extends Component {
@@ -29,7 +30,22 @@ class AddStoriesForm extends Component {
   };
 
   _handelSubmit = async () => {
-    //
+    const user = await firebase.auth().currentUser;
+    console.log("TCL: AddStoriesForm -> _handelSubmit -> user", user);
+    if (!user) {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(
+          "hams.ahmed.ansari95@gmail.com",
+          "A12345678"
+        )
+        .then(res => {
+          return res && props.login();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   };
 
   render() {
@@ -48,14 +64,28 @@ class AddStoriesForm extends Component {
           />
         </View>
         <View style={styles.buttonContainer}>
-          <Button title="Submit" style={styles.button} />
+          <Button
+            title="Submit"
+            style={styles.button}
+            onPress={this._handelSubmit}
+          />
         </View>
       </ScrollView>
     );
   }
 }
 
-export const AddStory = withNavigation(AddStoriesForm);
+const mapStateToProps = (state, ownProps) => {
+  console.log("TCL: mapStateToProps -> state", state);
+
+  return {
+    // propName: prop
+  };
+};
+
+export const AddStory = connect(mapStateToProps)(
+  withNavigation(AddStoriesForm)
+);
 
 const styles = StyleSheet.create({
   container: {

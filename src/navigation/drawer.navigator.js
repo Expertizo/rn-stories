@@ -13,8 +13,8 @@ import {
 */
 
 export const AppDrawerNavigator = createDrawerNavigator({
-  Stories: { screen: StoriesStack }
-  // Home: { screen: HomeStack },
-  // About: { screen: AboutStack },
-  // Contact: { screen: ContactStack }
+  Home: { screen: HomeStack },
+  Stories: { screen: StoriesStack },
+  About: { screen: AboutStack },
+  Contact: { screen: ContactStack }
 });
