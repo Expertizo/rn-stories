@@ -121,7 +121,7 @@ class Story extends Component {
           this.state.currentIndex
         );
       }
-    }, 10000);
+    }, 6000);
   };
 
   onPageChanged = async index => {

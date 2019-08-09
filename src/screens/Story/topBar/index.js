@@ -68,7 +68,7 @@ export default class TopBar extends PureComponent {
 
   updateNoOfProgress = () => {
     // const { duration } = this.props;
-    const duration = 100;
+    const duration = 60;
     this.setState({ noOfProgress: 0 });
     this.interVal = setInterval(() => {
       const { noOfProgress } = this.state;
