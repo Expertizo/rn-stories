@@ -48,7 +48,9 @@ class Story extends Component {
         clearTimeout(this.clearTimeOut);
       } else {
         this.setState(pre => ({ ...pre, currentIndex: pre.currentIndex + 1 }));
-        this._carousel.gotoPage(this.state.currentIndex);
+        if (this._carousel) {
+          this._carousel.gotoPage(this.state.currentIndex);
+        }
         console.log(
           "TCL: Story -> clearTimeOut -> this.state.currentIndex",
           this.state.currentIndex
@@ -60,12 +62,13 @@ class Story extends Component {
   render() {
     const imageURL = "https://picsum.photos/200/300?random=";
     const { currentIndex, noOfStories } = this.state;
-    console.log("TCL: Story -> render -> this.state", this.state.currentIndex);
     return (
       <View style={styles.container}>
         <View style={styles.topContainer}>
           <TopBar index={currentIndex} totalStories={noOfStories} />
-          <Header />
+          <Header
+            goBack={() => this.props.navigation.navigate("StoriesScreen")}
+          />
         </View>
         <View style={styles.bottomContainer}>
           <Carousel

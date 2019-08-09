@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import styles from "./style";
 import { Ionicons } from "@expo/vector-icons";
+import { withNavigation } from "react-navigation";
 
 class AvatarWithStory extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class AvatarWithStory extends Component {
   }
   render() {
     const { user } = this.props;
-    const { avatar, name, time } = user;
+    const { avatar, name, time, _id } = user;
     const isHideBottom = this.props.isHideBottom || false;
     return (
       <View style={styles.container}>
@@ -50,4 +51,4 @@ class AvatarWithStory extends Component {
   }
 }
 
-export default AvatarWithStory;
+export default withNavigation(AvatarWithStory);

@@ -10,7 +10,6 @@ export default StyleSheet.create({
   },
   bottomContainer: {
     width,
-    height: height * 0.92,
-    backgroundColor: "pink"
+    height: height * 0.92
   }
 });

@@ -78,9 +78,17 @@ class StoriesPage extends Component {
         <View style={styles.containerWithPadding}>
           {filterUsers &&
             filterUsers.map(user => (
-              <AvatarWithStory
-                user={{ ...user, time: dateFormatter(user.updatedAt) }}
-              />
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.navigation.navigate("StoryScreen", {
+                    uid: user._id
+                  })
+                }
+              >
+                <AvatarWithStory
+                  user={{ ...user, time: dateFormatter(user.updatedAt) }}
+                />
+              </TouchableOpacity>
             ))}
         </View>
       </ScrollView>

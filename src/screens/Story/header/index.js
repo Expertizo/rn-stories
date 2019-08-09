@@ -13,11 +13,18 @@ export default class Header extends Component {
       name: "Hams Ahmed Ansari",
       time: "Just Now"
     };
+    console.log(
+      "TCL: Header -> render -> this.props.goBack",
+      this.props.goBack
+    );
     return (
       <View style={styles.container}>
-        <View style={styles.backContainer}>
+        <TouchableOpacity
+          onPress={this.props.goBack}
+          style={styles.backContainer}
+        >
           <Ionicons name="md-arrow-back" size={32} color="#fff" />
-        </View>
+        </TouchableOpacity>
         <View style={styles.center}>
           <AvatarWithStory
             user={userObj}
@@ -25,6 +32,7 @@ export default class Header extends Component {
             ImageStyle={styles.avatarImage}
             TitleStyle={styles.avatarTitle}
             TimeStyle={styles.avatarTime}
+            disabled={true}
           />
         </View>
         <View style={styles.moreOption}>
