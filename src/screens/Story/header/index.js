@@ -5,18 +5,11 @@ import { connect } from "react-redux";
 import { withNavigation } from "react-navigation";
 import { Ionicons } from "@expo/vector-icons";
 import AvatarWithStory from "../../../components/avatarWithStory";
+import { dateFormatter } from "../../../shared/helper";
 
 export default class Header extends Component {
   render() {
-    const userObj = {
-      avatar: "https://avatars1.githubusercontent.com/u/35776235?s=460&v=4",
-      name: "Hams Ahmed Ansari",
-      time: "Just Now"
-    };
-    console.log(
-      "TCL: Header -> render -> this.props.goBack",
-      this.props.goBack
-    );
+    const { user, views } = this.props;
     return (
       <View style={styles.container}>
         <TouchableOpacity
@@ -27,7 +20,7 @@ export default class Header extends Component {
         </TouchableOpacity>
         <View style={styles.center}>
           <AvatarWithStory
-            user={userObj}
+            user={{ ...user, time: dateFormatter(user.updatedAt) }}
             isHideBottom={true}
             ImageStyle={styles.avatarImage}
             TitleStyle={styles.avatarTitle}
@@ -36,7 +29,8 @@ export default class Header extends Component {
           />
         </View>
         <View style={styles.moreOption}>
-          <Ionicons name="md-more" size={32} color="#fff" />
+          <Text style={{ color: "#fff", marginRight: 1 }}>{views}</Text>
+          <Ionicons name="md-eye" size={25} color="#fff" />
         </View>
       </View>
     );

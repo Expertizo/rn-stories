@@ -16,7 +16,7 @@ class MyAvatarWithStory extends Component {
     return (
       <TouchableOpacity
         onPress={() =>
-          this.props.navigation.navigate("StoryScreen", { uid: _id })
+          this.props.navigation.navigate("StoryScreen", { uid: _id, user })
         }
       >
         <View style={styles.container}>

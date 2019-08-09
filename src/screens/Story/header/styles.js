@@ -26,5 +26,10 @@ export default StyleSheet.create({
   avatarTime: {
     fontSize: width * 0.035,
     color: "#fff"
+  },
+  moreOption: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center"
   }
 });

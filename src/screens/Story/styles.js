@@ -11,5 +11,27 @@ export default StyleSheet.create({
   bottomContainer: {
     width,
     height: height * 0.92
+  },
+  loading: {
+    width,
+    height,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.3)"
+  },
+  overlayContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.3)"
+  },
+  overlayText: {
+    color: "#fff",
+    fontSize: width * 0.007
   }
 });

@@ -40,7 +40,7 @@ const Drawer = props => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    signout: () => dispatch(signoutAction({ userStatus: false }))
+    signout: () => dispatch(signoutAction({ userStatus: false, userId: "" }))
   };
 };
 export default connect(

@@ -81,7 +81,8 @@ class StoriesPage extends Component {
               <TouchableOpacity
                 onPress={() =>
                   this.props.navigation.navigate("StoryScreen", {
-                    uid: user._id
+                    uid: user._id,
+                    user
                   })
                 }
               >
