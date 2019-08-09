@@ -66,9 +66,9 @@ class Story extends Component {
             }}
             source={{ uri: story.image }}
           />
-          {/* {story.title && (
-            <ScrollView
-              contentContainerStyle={[
+          {story.title && (
+            <View
+              style={[
                 styles.overlayContainer,
                 {
                   width: BannerWidth,
@@ -76,9 +76,11 @@ class Story extends Component {
                 }
               ]}
             >
-              <Text style={styles.overlayText}>{story.title}</Text>
-            </ScrollView>
-          )} */}
+              <Text style={styles.overlayText} numberOfLines={3}>
+                {story.title}
+              </Text>
+            </View>
+          )}
         </View>
       </TouchableOpacity>
     );

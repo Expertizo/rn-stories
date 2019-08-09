@@ -28,11 +28,11 @@ export default StyleSheet.create({
     left: 0,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.3)"
+    backgroundColor: "rgba(0,0,0,0.4)"
   },
   overlayText: {
     color: "#fff",
-    fontSize: width * 0.007
+    fontSize: 20
   },
   viewedBy: {
     marginTop: StatusBar.currentHeight,
