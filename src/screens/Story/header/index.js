@@ -7,7 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import AvatarWithStory from "../../../components/avatarWithStory";
 import { dateFormatter } from "../../../shared/helper";
 
-export default class Header extends Component {
+class Header extends Component {
   render() {
     const { user, views } = this.props;
     return (
@@ -28,11 +28,19 @@ export default class Header extends Component {
             disabled={true}
           />
         </View>
-        <View style={styles.moreOption}>
-          <Text style={{ color: "#fff", marginRight: 1 }}>{views}</Text>
-          <Ionicons name="md-eye" size={25} color="#fff" />
-        </View>
+        {this.props.userId === user._id && (
+          <View style={styles.moreOption}>
+            <Text style={{ color: "#fff", marginRight: 5 }}>{views}</Text>
+            <Ionicons name="md-eye" size={18} color="#fff" />
+          </View>
+        )}
       </View>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  userId: state.authReducer.userId
+});
+
+export default connect(mapStateToProps)(Header);
