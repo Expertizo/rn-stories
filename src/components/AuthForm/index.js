@@ -18,8 +18,8 @@ export const AuthForm = props => {
     <View>
       <Text style={styles.formHeading}>{isSignup ? "Signup" : "Login"}</Text>
       <EmailAuth isSignup={isSignup} />
-      <FacebookAuth />
-      <GoogleAuth />
+      {/* <FacebookAuth /> */}
+      {/* <GoogleAuth /> */}
     </View>
   );
 };
