@@ -108,7 +108,7 @@ class Story extends Component {
     this.clearTimeOut = setTimeout(() => {
       const { currentIndex, noOfStories } = this.state;
       console.log("firing ===>", currentIndex);
-      if (Number(currentIndex) === Number(noOfStories)) {
+      if (Number(currentIndex) === Number(noOfStories) - 1) {
         console.log("clearing Timeout");
         clearTimeout(this.clearTimeOut);
       } else {
@@ -168,7 +168,11 @@ class Story extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.topContainer}>
-          <TopBar index={currentIndex} totalStories={noOfStories} />
+          <TopBar
+            index={currentIndex}
+            totalStories={noOfStories}
+            isLast={currentIndex === noOfStories - 1}
+          />
           <Header
             goBack={() => this.props.navigation.navigate("StoriesScreen")}
             user={this.props.user}

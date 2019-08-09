@@ -22,6 +22,11 @@ export default class TopBar extends PureComponent {
     // noOfStories: 0,
     noOfProgress: 0
   };
+
+  componentDidMount() {
+    this.updateNoOfProgress();
+  }
+
   // componentDidMount() {
   //   const { duration } = this.props;
   //   this.setState(pre => ({ ...pre, currentIndex: pre.currentIndex + 1 }));
@@ -50,8 +55,12 @@ export default class TopBar extends PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.index !== this.props.index) {
-      console.log("Rendering TOPBAR");
       if (this.interVal) clearInterval(this.interVal);
+
+      console.log(
+        "TCL: TopBar -> componentDidUpdate -> this.props.isLast",
+        this.props.isLast
+      );
 
       this.updateNoOfProgress();
     }

@@ -1,4 +1,5 @@
 export const dateIsWithIin24Hours = date => {
+  if (!date) return false;
   const yesterday = new Date().getTime() - 1 * 24 * 60 * 60 * 1000;
   return !(yesterday > date);
 };
