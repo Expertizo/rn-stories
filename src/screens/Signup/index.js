@@ -11,10 +11,11 @@ import { styles } from "../styles";
 
 export class Signup extends Component {
   render() {
+    console.log("From signup");
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.formContainer}>
         <View style={styles.form}>
-          <AuthForm isSignup />
+          <AuthForm isSignup={true} />
         </View>
       </KeyboardAvoidingView>
     );

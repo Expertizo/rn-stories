@@ -33,6 +33,11 @@ const hasValid = values => {
 
 export const EmailAuthWithNav = props => {
   const { isSignup } = props;
+  console.log("TCL: isSignup", isSignup);
+
+  if (props.uid) {
+    props.navigation.navigate("App");
+  }
 
   const login = (email, password) => {
     firebase
@@ -64,7 +69,7 @@ export const EmailAuthWithNav = props => {
             },
             { merge: true }
           );
-        return res && props.signup();
+        return res && props.signup(res.user.uid);
       })
       .catch(error => {
         console.log(error);
@@ -124,19 +129,18 @@ export const EmailAuthWithNav = props => {
   );
 };
 
-// const mapStateToProps = state => ({
-//   userStatus: state.authReducer.userStatus
-// });
+const mapStateToProps = state => {
+  return { uid: state.authReducer.userId };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
     login: uid => dispatch(loginAction({ userStatus: true, uid })),
-    signup: () => dispatch(signupAction({ userStatus: true }))
+    signup: uid => dispatch(signupAction({ userStatus: true, uid }))
   };
 };
 
 export const EmailAuth = connect(
-  // mapStateToProps,
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(withNavigation(EmailAuthWithNav));

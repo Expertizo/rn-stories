@@ -10,56 +10,36 @@ import { Ionicons } from "@expo/vector-icons";
 import MyAvatarWithStory from "../../components/myAvatarWithStory";
 import HrWithText from "../../components/hrWithText";
 import AvatarWithStory from "../../components/avatarWithStory";
+import { dateIsWithIin24Hours, dateFormatter } from "../../shared/helper";
 
 class StoriesPage extends Component {
   state = {
     user: {},
-    myStories: []
+    allUsers: [],
+    filterUsers: []
   };
   componentDidMount = async () => {
     const { userId } = this.props;
-    console.log("TCL: StoriesPage -> componentDidMount -> userId", userId);
+    this.timeIntervalSubscription = setInterval(() => {
+      if (this.state.allUsers !== []) {
+        this.filterUsers();
+      }
+    }, 500);
     try {
-      // this.UserSubscription =
-      const currentTimeStamp =
-        firebase.firestore.Timestamp.now().toMillis() - 24 * 60 * 60 * 1000;
-      console.log(
-        "TCL: StoriesPage -> componentDidMount -> currentTimeStamp",
-        currentTimeStamp
-      );
-      await firebase
-        .firestore()
-        .collection("users")
-        .doc(userId)
-        .get()
-        .then(doc => {
-          if (doc.exists) {
-            const user = doc.data();
-            this.setState({ user });
-          }
-        });
       this.UserSubscription = await firebase
         .firestore()
         .collection("users")
-        .doc(userId)
-        .collection("stories")
-        .orderBy("createdAt", "desc")
-        .startAt(currentTimeStamp)
         .onSnapshot(snapshot => {
-          console.log(
-            "TCL: StoriesPage -> componentDidMount -> snapshot",
-            snapshot
-          );
           if (!snapshot.empty) {
-            let myStories = [];
+            let tempUser = [];
             snapshot.forEach(snap => {
-              console.log(
-                "TCL: StoriesPage -> componentDidMount -> snap",
-                snap
-              );
-              myStories.push(snap.data());
+              tempUser.push({ ...snap.data(), _id: snap.id });
             });
-            this.setState({ myStories });
+
+            const user = tempUser.find(user => user._id === userId);
+            const allUsers = tempUser.filter(user => user._id !== userId);
+
+            this.setState({ allUsers, user });
           }
         });
     } catch (error) {
@@ -69,38 +49,39 @@ class StoriesPage extends Component {
 
   componentWillUnmount() {
     if (this.UserSubscription) this.UserSubscription();
+    if (this.timeIntervalSubscription)
+      clearInterval(this.timeIntervalSubscription);
   }
 
+  filterUsers = () => {
+    const { allUsers } = this.state;
+    const filterUsers = allUsers.filter(user =>
+      dateIsWithIin24Hours(user.updatedAt)
+    );
+    this.setState({ filterUsers });
+  };
+
   render() {
-    const userObj = {
-      avatar: "https://avatars1.githubusercontent.com/u/35776235?s=460&v=4",
-      name: "Hams Ahmed Ansari",
-      time: "Just Now"
-    };
-    const { user, myStories } = this.state;
-    console.log("TCL: StoriesPage -> render -> myStories", myStories);
-    // const lastStory ;
-    if (myStories) {
-      lastStory = myStories[0];
-    }
+    const { user, filterUsers } = this.state;
+
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.containerWithPadding}>
-          {user && <MyAvatarWithStory user={{ ...user, time: "Just Now" }} />}
+          {Object.entries(user).length !== 0 && (
+            <MyAvatarWithStory
+              hasStories={dateIsWithIin24Hours(user.updatedAt)}
+              user={{ ...user, time: dateFormatter(user.updatedAt) }}
+            />
+          )}
         </View>
-        <HrWithText text="View Other Stories" />
+        <HrWithText text={`Other Users (${filterUsers.length})`} />
         <View style={styles.containerWithPadding}>
-          <AvatarWithStory user={userObj} />
-          <AvatarWithStory user={userObj} />
-          <AvatarWithStory user={userObj} />
-          <AvatarWithStory user={userObj} />
-          <AvatarWithStory user={userObj} />
-        </View>
-        <HrWithText text="Already Viewed Stories" />
-        <View style={styles.containerWithPadding}>
-          <AvatarWithStory user={userObj} />
-          <AvatarWithStory user={userObj} />
-          <AvatarWithStory user={userObj} />
+          {filterUsers &&
+            filterUsers.map(user => (
+              <AvatarWithStory
+                user={{ ...user, time: dateFormatter(user.updatedAt) }}
+              />
+            ))}
         </View>
       </ScrollView>
     );

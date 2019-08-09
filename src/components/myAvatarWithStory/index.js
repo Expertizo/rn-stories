@@ -9,11 +9,17 @@ class MyAvatarWithStory extends Component {
     this.state = {};
   }
   render() {
-    const { avatar, name, time } = this.props.user;
+    const { user, hasStories } = this.props;
+    const { avatar, name, time } = user;
 
     return (
       <View style={styles.container}>
-        <View style={styles.imageContainer}>
+        <View
+          style={[
+            styles.imageContainer,
+            hasStories && styles.imageContainerActive
+          ]}
+        >
           <Image
             source={{
               uri: avatar

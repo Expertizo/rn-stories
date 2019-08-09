@@ -12,11 +12,14 @@ export default StyleSheet.create({
   },
   imageContainer: {
     // backgroundColor: "#000"
-    borderWidth: 2,
-    borderColor: "#ccc",
+
     padding: 2.5,
     borderRadius: 100,
     marginRight: 5
+  },
+  imageContainerActive: {
+    borderWidth: 2,
+    borderColor: "#ccc"
   },
   avatar: {
     width: width * 0.2,
