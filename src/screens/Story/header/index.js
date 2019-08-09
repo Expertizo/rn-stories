@@ -9,7 +9,7 @@ import { dateFormatter } from "../../../shared/helper";
 
 class Header extends Component {
   render() {
-    const { user, views } = this.props;
+    const { user, views, viewsOnPress } = this.props;
     return (
       <View style={styles.container}>
         <TouchableOpacity
@@ -29,10 +29,10 @@ class Header extends Component {
           />
         </View>
         {this.props.userId === user._id && (
-          <View style={styles.moreOption}>
+          <TouchableOpacity onPress={viewsOnPress} style={styles.moreOption}>
             <Text style={{ color: "#fff", marginRight: 5 }}>{views}</Text>
             <Ionicons name="md-eye" size={18} color="#fff" />
-          </View>
+          </TouchableOpacity>
         )}
       </View>
     );

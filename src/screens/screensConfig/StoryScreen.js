@@ -11,6 +11,7 @@ export default class StoryScreen extends React.Component {
       <StoryPage
         id={this.props.navigation.getParam("uid")}
         user={this.props.navigation.getParam("user")}
+        allUsers={this.props.navigation.getParam("allUsers") || []}
       />
     );
   }

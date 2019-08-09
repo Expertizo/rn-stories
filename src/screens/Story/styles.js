@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions, StatusBar } from "react-native";
 const { width, height } = Dimensions.get("window");
 
 export default StyleSheet.create({
@@ -33,5 +33,13 @@ export default StyleSheet.create({
   overlayText: {
     color: "#fff",
     fontSize: width * 0.007
+  },
+  viewedBy: {
+    marginTop: StatusBar.currentHeight,
+    marginBottom: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 5
   }
 });

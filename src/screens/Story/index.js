@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Dimensions,
-  ActivityIndicator
+  ActivityIndicator,
+  Modal
 } from "react-native";
 import * as firebase from "firebase";
 import "firebase/firestore";
@@ -18,6 +19,8 @@ import { Ionicons } from "@expo/vector-icons";
 import Header from "./header";
 import TopBar from "./topBar";
 import Carousel from "react-native-banner-carousel";
+import AvatarWithStory from "../../components/avatarWithStory";
+import { dateFormatter } from "../../shared/helper";
 const BannerWidth = Dimensions.get("window").width;
 const BannerHeight = Dimensions.get("window").height * 0.8;
 class Story extends Component {
@@ -25,8 +28,22 @@ class Story extends Component {
     currentIndex: -1,
     noOfStories: 10,
     stories: [],
-    isLoading: true
+    isLoading: true,
+    modalVisible: false,
+    storiesViewedBy: []
   };
+  setModalVisible = () => {
+    this.setState(pre => ({ ...pre, modalVisible: !pre.modalVisible }));
+    // if (this.state.modalVisible) {
+    const { allUsers } = this.props;
+    const { currentIndex } = this.state;
+    const activeStory = this.state.stories[currentIndex].viewedBy;
+    console.log("TCL: Story -> renderViewedBy -> allUsers", allUsers);
+    const viewedUsers = allUsers.filter(user => activeStory.includes(user._id));
+    this.setState({ storiesViewedBy: viewedUsers });
+    // }
+  };
+
   renderPage = (story, index) => {
     return (
       <TouchableOpacity
@@ -123,6 +140,9 @@ class Story extends Component {
       }
     }, 6000);
   };
+  pauseSlider = () => {
+    clearTimeout(this.clearTimeOut);
+  };
 
   onPageChanged = async index => {
     const activeStory = this.state.stories[index];
@@ -166,38 +186,67 @@ class Story extends Component {
       );
 
     return (
-      <View style={styles.container}>
-        <View style={styles.topContainer}>
-          <TopBar
-            index={currentIndex}
-            totalStories={noOfStories}
-            isLast={currentIndex === noOfStories - 1}
-          />
-          <Header
-            goBack={() => this.props.navigation.navigate("StoriesScreen")}
-            user={this.props.user}
-            views={
-              stories[currentIndex] && stories[currentIndex].viewedBy.length
-            }
-          />
+      <React.Fragment>
+        <View style={styles.container}>
+          <View style={styles.topContainer}>
+            <TopBar
+              index={currentIndex}
+              totalStories={noOfStories}
+              isLast={currentIndex === noOfStories - 1}
+            />
+            <Header
+              goBack={() => this.props.navigation.navigate("StoriesScreen")}
+              user={this.props.user}
+              views={
+                stories[currentIndex] && stories[currentIndex].viewedBy.length
+              }
+              viewsOnPress={this.setModalVisible}
+            />
+          </View>
+          <View style={styles.bottomContainer}>
+            <Carousel
+              ref={ref => (this._carousel = ref)}
+              autoplay={false}
+              // autoplayTimeout={10000}
+              loop={false}
+              // index={0}
+              pageSize={BannerWidth}
+              onPageChanged={this.onPageChanged}
+              index={currentIndex === -1 ? 0 : currentIndex}
+              showsPageIndicator={false}
+            >
+              {stories &&
+                stories.map((story, index) => this.renderPage(story, index))}
+            </Carousel>
+          </View>
         </View>
-        <View style={styles.bottomContainer}>
-          <Carousel
-            ref={ref => (this._carousel = ref)}
-            autoplay={false}
-            // autoplayTimeout={10000}
-            loop={false}
-            // index={0}
-            pageSize={BannerWidth}
-            onPageChanged={this.onPageChanged}
-            index={currentIndex === -1 ? 0 : currentIndex}
-            showsPageIndicator={false}
-          >
-            {stories &&
-              stories.map((story, index) => this.renderPage(story, index))}
-          </Carousel>
-        </View>
-      </View>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            this.setState({ modalVisible: false });
+            this.interval();
+          }}
+        >
+          <ScrollView>
+            <View style={styles.viewedBy}>
+              <Text style={{ fontSize: 18 }}>Viewed By</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  this.setState({ modalVisible: false });
+                  this.interval();
+                }}
+              >
+                <Text>Close</Text>
+              </TouchableOpacity>
+            </View>
+            {this.state.storiesViewedBy.map(user => (
+              <AvatarWithStory user={{ ...user }} />
+            ))}
+          </ScrollView>
+        </Modal>
+      </React.Fragment>
     );
   }
 }

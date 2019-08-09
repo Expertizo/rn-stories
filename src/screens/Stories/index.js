@@ -62,7 +62,7 @@ class StoriesPage extends Component {
   };
 
   render() {
-    const { user, filterUsers } = this.state;
+    const { user, filterUsers, allUsers } = this.state;
 
     return (
       <ScrollView contentContainerStyle={styles.container}>
@@ -71,6 +71,7 @@ class StoriesPage extends Component {
             <MyAvatarWithStory
               hasStories={dateIsWithIin24Hours(user.updatedAt)}
               user={{ ...user, time: dateFormatter(user.updatedAt) }}
+              allUsers={allUsers}
             />
           )}
         </View>
