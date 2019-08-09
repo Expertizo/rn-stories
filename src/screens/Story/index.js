@@ -191,6 +191,7 @@ class Story extends Component {
             pageSize={BannerWidth}
             onPageChanged={this.onPageChanged}
             index={currentIndex === -1 ? 0 : currentIndex}
+            showsPageIndicator={false}
           >
             {stories &&
               stories.map((story, index) => this.renderPage(story, index))}
