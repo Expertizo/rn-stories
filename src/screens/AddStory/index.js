@@ -6,7 +6,8 @@ import {
   ScrollView,
   StyleSheet,
   Dimensions,
-  ActivityIndicator
+  ActivityIndicator,
+  Image
 } from "react-native";
 import * as firebase from "firebase";
 import { withNavigation } from "react-navigation";
@@ -135,6 +136,19 @@ class AddStoriesForm extends Component {
               onPress={this._handelSelectImage}
             />
           </View>
+          {image ? (
+            <Image
+              source={{ uri: image }}
+              style={{
+                width: 200,
+                height: 200,
+                marginTpo: 10,
+                borderRadius: 10,
+                marginBottom: 10
+              }}
+            />
+          ) : null}
+
           <View style={styles.buttonContainer}>
             <Button
               title="Submit"
